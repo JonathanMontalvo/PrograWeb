@@ -63,21 +63,14 @@ class Orm
 
     function insert($data)
     {
-        //Tiene error en la concatenación
         $sql = "INSERT INTO {$this->table}(";
+        $values = "(";
         foreach ($data as $key => $value) {
             $sql .= "{$key}, ";
+            $values .= ":{$key}, ";
         }
 
-        $fin = strrpos("$sql", ",");
-        $sql = substr($sql, 0, $fin);
-        $sql .= ") VALUES (";
-        foreach ($data as $key => $value) {
-            $sql .= "{$value}, ";
-        }
-        $fin = strrpos("$sql", ",");
-        $sql = substr($sql, 0, $fin);
-        $sql .= ")";
+        $sql = rtrim($sql, ', ') . ') VALUES ' . rtrim($values, ', ') . ')';
         $stm = $this->db->prepare($sql);
 
         $success = false;
@@ -88,5 +81,6 @@ class Orm
         }
         return $success;
     }
+
 }
 ?>

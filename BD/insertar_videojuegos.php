@@ -19,9 +19,9 @@ if ($encontrado) {
     $insertar['cantidad'] = $_POST['quantity'];
     $insertar['fecha_lanzamiento'] = $_POST['release-date'];
 
-    /*if ($videojuegosModelo->insert($insertar))
+    if ($videojuegosModelo->insert($insertar))
         print_r($insertar);
     else
-        echo "No se logro añadir";*/
+        echo "No se logro añadir";
 }
 ?>
