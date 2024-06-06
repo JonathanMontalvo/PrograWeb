@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <label for="rating"><i class="fas fa-star"></i> Clasificación</label>
                     <input type="text" class="form-control" id="rating" name="rating"
-                        placeholder="Ingresa la clasificación Cambio Daniel 1" required>
+                        placeholder="Ingresa la clasificación" required>
                 </div>
                 <div class="form-group">
                     <label for="description"><i class="fas fa-scroll"></i> Descripción</label>
