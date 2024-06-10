@@ -8,20 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <!-- Ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!--  <style>
-        body {
-            /* Sustituye 'URL_DEL_GIF' con la URL de tu GIF */
-            background: url('./assets/fondo_agregar_videojuego.gif') no-repeat center center fixed;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
+    <style>
+        .modal-content {
+            background: none;
+            border: none;
         }
-    </style>-->
+    </style>
+
+
 </head>
 
 <body>
-    <div class="container mt-3 d-flex justify-content-center">
+    <div class="container mb-3 d-flex justify-content-center">
         <div class="bg-dark text-white p-3 rounded">
             <h2><i class="fas fa-gamepad"></i> Agregar un nuevo videojuego</h2>
             <form id="gameForm">
