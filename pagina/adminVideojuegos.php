@@ -70,7 +70,7 @@
                         row += '<td>' + videojuego.fecha_lanzamiento + '</td>';
                         row += '<td><button class="btn btn-success btn-sm">ver</button></td>';
                         row += '<td><button class="btn btn-info btn-sm">editar</button></td>';
-                        row += '<td><button class="btn btn-danger btn-sm">elimiar</button></td>';
+                        row += '<td><button class="btn btn-danger btn-sm">eliminar</button></td>';
                         row += '</tr>';
                         $('#tablaVideojuegos tbody').append(row);
                     });
@@ -93,10 +93,12 @@
 
             });
 
-            // Manejar el evento click de los botones  de eliminar
+            // Manejar el evento click de los botones de eliminar
             $('#tablaVideojuegos').on('click', '.btn-danger', function () {
-
+                // Abrir el modal de confirmación de eliminación
+                $('#confirmDeleteModal').modal('show');
             });
+
 
             // Manejar el evento click de los botones de agregar
             $('[data-toggle="modal"]').click(function () {
