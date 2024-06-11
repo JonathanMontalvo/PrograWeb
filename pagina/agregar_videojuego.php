@@ -3,13 +3,13 @@
 
 <head>
     <!-- CSS de Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <!-- Ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
-        .modal-content {
+        .modal-agregar {
             background: none;
             border: none;
         }
@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <label for="price"><i class="fas fa-tag"></i> Precio</label>
-                    <input type="number" step="0.01" class="form-control" id="price" name="price"
+                    <input type="number" min="0.01" step="0.01" class="form-control" id="price" name="price"
                         placeholder="Ingresa el precio" required>
                 </div>
                 <div class="form-group">
@@ -51,11 +51,11 @@
                 <div class="form-group">
                     <label for="quantity"><i class="fas fa-dice"></i> Cantidad</label>
                     <input type="number" class="form-control" id="quantity" name="quantity"
-                        placeholder="Ingresa la cantidad" required>
+                        placeholder="Ingresa la cantidad" required min="1" step="1">
                 </div>
                 <div class="form-group">
                     <label for="release-date"><i class="fas fa-calendar-alt"></i> Fecha de Lanzamiento</label>
-                    <input type="date" class="form-control" id="release-date" name="release-date" required>
+                    <input type="date" class="form-control" id="release-date" name="release-date" required max="">
                 </div>
                 <button type="submit" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Guardar</button>
             </form>
@@ -63,8 +63,28 @@
 
         <script>
             $(document).ready(function () {
+                // Establecer la fecha máxima para "release-date" como la fecha de hoy
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0!
+                var yyyy = today.getFullYear();
+                today = yyyy + '-' + mm + '-' + dd;
+                document.getElementById("release-date").max = today;
+
                 $("#gameForm").submit(function (e) {
                     e.preventDefault();
+
+                    // Validar que los campos no estén vacíos ni contengan solo espacios en blanco
+                    var fields = ["name", "rating", "description", "company"];
+                    var title = ["nombre", "clasificación", "descripción", "compañia"]
+                    for (var i = 0; i < fields.length; i++) {
+                        var value = document.getElementById(fields[i]).value;
+                        if (!value || !value.trim()) {
+                            alert("El campo " + title[i] + " no puede estar vacío ni contener solo espacios en blanco.");
+                            return false;
+                        }
+                    }
+
                     var formData = $(this).serialize();
                     $.ajax({
                         type: "POST",
@@ -72,6 +92,8 @@
                         data: formData,
                         success: function (result) {
                             console.log(result);
+                            // Redirigir a adminVideojuegos.php
+                            window.location.href = 'adminVideojuegos.php';
                         }
                     })
                 })
