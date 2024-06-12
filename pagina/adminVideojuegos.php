@@ -129,8 +129,11 @@
             });
 
             // Manejar el evento click de los botones de editar
-            $('#tablaVideojuegos').on('click', '.btn-info', function () {
-                // Código para manejar la edición
+            $('#tablaVideojuegos').on('click', '.btn-editar', function () {
+                var row = $(this).closest('tr');
+                var id = row.find('td:nth-child(1)').text();
+                // Redirigir a editar_videojuego.php con el ID del videojuego
+                window.location.href = 'editar_videojuego.php?id=' + id;
             });
 
             // Manejar el evento click de los botones de eliminar
