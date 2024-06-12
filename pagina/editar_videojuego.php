@@ -62,31 +62,30 @@
     </div>
 
     <script>
-        $(document).ready(function () {
-            // Establecer la fecha máxima para "release-date" como la fecha de hoy
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0!
-            var yyyy = today.getFullYear();
-            today = yyyy + '-' + mm + '-' + dd;
-            document.getElementById("release-date").max = today;
+         $(document).ready(function () {
+            // Obtener el ID del videojuego de la URL
+            var urlParams = new URLSearchParams(window.location.search);
+            var id = urlParams.get('id');
 
-            // Función para cargar los datos del videojuego a editar
-            function cargarDatos(id) {
+            if (id) {
                 $.ajax({
-                    type: "GET",
-                    url: "../BD/obtener_videojuego.php",
+                    url: '../BD/obtener_videojuego.php', // Cambia esto al nombre del archivo PHP que obtenga los datos del videojuego
+                    method: 'GET',
                     data: { id: id },
-                    dataType: "json",
-                    success: function (data) {
-                        $('#id').val(data.id); // Establecer el valor del campo ID
-                        $('#name').val(data.nombre);
-                        $('#rating').val(data.clasificacion);
-                        $('#description').val(data.descripcion);
-                        $('#price').val(data.precio);
-                        $('#company').val(data.compania);
-                        $('#quantity').val(data.cantidad);
-                        $('#release-date').val(data.fecha_lanzamiento);
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.error) {
+                            console.error('Error:', response.error);
+                            return;
+                        }
+                        // Llenar el formulario con los datos del videojuego
+                        $('#name').val(response.nombre);
+                        $('#rating').val(response.clasificacion);
+                        $('#description').val(response.descripcion);
+                        $('#price').val(response.precio);
+                        $('#company').val(response.compania);
+                        $('#quantity').val(response.cantidad);
+                        $('#release-date').val(response.fecha_lanzamiento);
                     },
                     error: function (xhr, status, error) {
                         console.error('Error al obtener datos del videojuego:', error);
@@ -94,32 +93,14 @@
                 });
             }
 
-            // Si hay un ID en la URL, cargar los datos del videojuego
-            var urlParams = new URLSearchParams(window.location.search);
-            var id = urlParams.get('id');
-            if (id) {
-                cargarDatos(id);
-            }
-
-            // Manejar la submit del formulario
             $("#gameForm").submit(function (e) {
                 e.preventDefault();
 
-                // Validar que los campos no estén vacíos ni contengan solo espacios en blanco
-                var fields = ["name", "rating", "description", "company"];
-                var title = ["nombre", "clasificación", "descripción", "compañia"]
-                for (var i = 0; i < fields.length; i++) {
-                    var value = document.getElementById(fields[i]).value;
-                    if (!value || !value.trim()) {
-                        alert("El campo " + title[i] + " no puede estar vacío ni contener solo espacios en blanco.");
-                        return false;
-                    }
-                }
+                var formData = $(this).serialize() + '&id=' + id; // Incluye el ID en los datos del formulario
 
-                var formData = $(this).serialize();
                 $.ajax({
                     type: "POST",
-                    url: "../BD/update_videojuego.php", // Cambiar la URL al archivo de actualización
+                    url: "../BD/update_videojuego.php",
                     data: formData,
                     success: function (result) {
                         console.log(result);
