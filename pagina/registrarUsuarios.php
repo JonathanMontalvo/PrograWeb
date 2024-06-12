@@ -1,54 +1,20 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: sans-serif;
-            background-image: url('./assets/registro.jpeg'); /* Reemplaza con la ruta a tu imagen */
-            background-size: cover; /* Cubrir toda la pantalla */
-            background-position: center; /* Centrar la imagen */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
         }
 
         form {
-            background-color: rgba(255, 255, 255, 0.7); /* Fondo semitransparente para el formulario */
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            width: 300px;
+            opacity: 1.3; /* Set the background opacity using inline style */
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"], input[type="email"], input[type="password"], input[type="date"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-            width: 100%; /* Ancho completo del botón */
-        }
-
+        /* Estilos para los modales de error */
         .error-modal {
             display: none;
             position: absolute;
@@ -62,74 +28,91 @@
     </style>
 </head>
 <body>
+    <div class="container-fluid vh-100 d-flex justify-content-center align-items-center" style="background-image: url('./assets/registro.jpeg'); background-size: cover; background-position: center;">
+        <form method="post" class="bg-white p-4 rounded shadow-sm" style="width: 300px;">
+            <h2 class="text-center mb-3">Registro de Usuario</h2>
 
-<form method="post">
-    <h2>Registro de Usuario</h2>
-    </label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" name="nombre" required>
-    <div id="nombreError" class="error-modal"></div><br><br>
+            <div class="mb-2">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                <div id="nombreError" class="error-modal"></div>
+            </div>
 
-    </label for="apellido_paterno">Apellido Paterno:</label>
-    <input type="text" id="apellido_paterno" name="apellido_paterno" required>
-    <div id="apellidoPaternoError" class="error-modal"></div><br><br>
+            <div class="mb-2">
+                <label for="apellido_paterno" class="form-label">Apellido Paterno:</label>
+                <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno" required>
+                <div id="apellidoPaternoError" class="error-modal"></div>
+            </div>
 
-    </label for="apellido_materno">Apellido Materno:</label>
-    <input type="text" id="apellido_materno" name="apellido_materno" required>
-    <div id="apellidoMaternoError" class="error-modal"></div><br><br>
-    
-    </label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
-    <div id="fechaNacimientoError" class="error-modal"></div><br><br>
+            <div class="mb-2">
+                <label for="apellido_materno" class="form-label">Apellido Materno:</label>
+                <input type="text" class="form-control" id="apellido_materno" name="apellido_materno" required>
+                <div id="apellidoMaternoError" class="error-modal"></div>
+            </div>
 
-    <label for="correo">Correo Electrónico:</label>
-    <input type="email" id="correo" name="correo" required>
-    <div id="correoError" class="error-modal"></div><br><br>
+            <div class="mb-2">
+                <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
+                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                <div id="fechaNacimientoError" class="error-modal"></div>
+            </div>
 
-    <label for="contrasenia">Contraseña:</label>
-    <input type="password" id="contrasenia" name="contrasenia" required>
-    <div id="contraseniaError" class="error-modal"></div><br><br>
+            <div class="mb-2">
+                <label for="correo" class="form-label">Correo Electrónico:</label>
+                <input type="email" class="form-control" id="correo" name="correo" required>
+                <div id="correoError" class="error-modal"></div>
+            </div>
 
-    <input type="submit" value="Registrar">
-</form>
+            <div class="mb-2">
+                <label for="contrasenia" class="form-label">Contraseña:</label>
+                <input type="password" class="form-control" id="contrasenia" name="contrasenia" required>
+                <div id="contraseniaError" class="error-modal"></div>
+            </div>
 
-<script>
-    const form = document.querySelector('form');
-    const errorModals = document.querySelectorAll('.error-modal');
+            <button type="submit" class="btn btn-success w-100">Registrar</button>
+        </form>
+    </div>
 
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // JavaScript para la validación del formulario
+        const form = document.querySelector('form');
+        const errorModals = document.querySelectorAll('.error-modal');
 
-        errorModals.forEach(modal => modal.style.display = 'none');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault(); // Evita el envío del formulario por defecto
 
-        try {
-            const response = await fetch('../BD/registro.php', {
-                method: 'POST',
-                body: new FormData(form)
+            let isValid = true; // Variable para rastrear si el formulario es válido
+
+            // Validación de campos
+            const fields = ['nombre', 'apellido_paterno', 'apellido_materno', 'fecha_nacimiento', 'correo', 'contrasenia'];
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                const errorModal = document.getElementById(field + 'Error');
+                
+                if (input.value.trim() === '') {
+                    errorModal.textContent = 'Este campo es obligatorio';
+                    errorModal.style.display = 'block';
+                    isValid = false;
+                } else if (field === 'correo' && !validateEmail(input.value)) {
+                    errorModal.textContent = 'Por favor, ingrese un correo electrónico válido';
+                    errorModal.style.display = 'block';
+                    isValid = false;
+                } else {
+                    errorModal.style.display = 'none';
+                }
             });
 
-            if (response.ok) {
-                alert("Usuario registrado exitosamente.");
-                form.reset(); // Limpiar el formulario después del registro exitoso
-            } else {
-                const errors = await response.json();
-
-                for (const field in errors) {
-                    const errorModal = document.getElementById(field + 'Error');
-                    if (errorModal) {
-                        errorModal.textContent = errors[field];
-                        errorModal.style.display = 'block';
-
-                        const inputRect = document.getElementById(field).getBoundingClientRect();
-                        errorModal.style.left = (inputRect.right + 5) + 'px';
-                        errorModal.style.top = inputRect.top + 'px';
-                    }
-                }
+            // Si todos los campos son válidos, envía el formulario
+            if (isValid) {
+                form.submit();
             }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    });
-</script>
+        });
 
+        // Función para validar el formato del correo electrónico
+        function validateEmail(email) {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+    </script>
 </body>
 </html>
