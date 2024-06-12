@@ -119,7 +119,7 @@
                 var formData = $(this).serialize();
                 $.ajax({
                     type: "POST",
-                    url: "../BD/update_videojuegos.php", 
+                    url: "../BD/update_videojuego.php", // Cambiar la URL al archivo de actualización
                     data: formData,
                     success: function (result) {
                         console.log(result);
