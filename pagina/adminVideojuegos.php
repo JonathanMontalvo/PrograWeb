@@ -21,7 +21,8 @@
             <i class="fas fa-plus"></i> Agregar
         </button>
 
-        <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="miModalLabel" aria-hidden="true">
+        <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="miModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content modal-agregar">
                     <div id="modalContentAgregar">
@@ -32,7 +33,8 @@
         </div>
 
         <!-- Modal de confirmación de eliminación -->
-        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog"
+            aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -72,6 +74,7 @@
         </table>
     </div>
 
+
     <!-- Incluyendo jQuery y Bootstrap JS -->
     <!-- Popper.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -79,7 +82,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Variable para guardar el ID del videojuego
             var videojuegoId;
             // Variable para guardar la fila del videojuego
@@ -93,9 +96,9 @@
                 url: '../BD/Consultar_videojuegos.php', // Archivo PHP que envía los datos de videojuegos
                 method: 'GET', // Usamos GET ya que no estamos enviando datos
                 dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                     // Iterar sobre los datos recibidos y agregar filas a la tabla
-                    $.each(response, function(index, videojuego) {
+                    $.each(response, function (index, videojuego) {
                         var row = '<tr>';
                         row += '<td>' + videojuego.id + '</td>';
                         row += '<td>' + videojuego.nombre + '</td>';
@@ -111,13 +114,13 @@
                         $('#tablaVideojuegos tbody').append(row);
                     });
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Error al obtener datos de videojuegos:', error);
                 }
             });
 
             // Manejar el evento click de los botones de acción
-            $('#tablaVideojuegos').on('click', '.btn-success', function() {
+            $('#tablaVideojuegos').on('click', '.btn-success', function () {
                 var row = $(this).closest('tr');
                 var id = row.find('td:nth-child(1)').text();
                 var nombre = row.find('td:nth-child(2)').text();
@@ -127,7 +130,7 @@
             });
 
             // Manejar el evento click de los botones de editar
-            $('#tablaVideojuegos').on('click', '.btn-editar', function() {
+            $('#tablaVideojuegos').on('click', '.btn-editar', function () {
                 // Obtener el ID del videojuego
                 var row = $(this).closest('tr');
                 var id = row.find('td:nth-child(1)').text();
@@ -137,7 +140,7 @@
             });
 
             // Manejar el evento click de los botones de eliminar
-            $('#tablaVideojuegos').on('click', '.btn-danger', function() {
+            $('#tablaVideojuegos').on('click', '.btn-danger', function () {
                 // Abrir el modal de confirmación de eliminación
                 myDeleteModal.show();
                 // Guardar el ID del videojuego
@@ -147,7 +150,7 @@
             });
 
             // Manejar el evento click del botón de eliminar en el modal
-            $(document).on('click', '#confirmDeleteModal .btn-danger', function() {
+            $(document).on('click', '#confirmDeleteModal .btn-danger', function () {
                 console.log('Hola' + videojuegoId);
                 $.ajax({
                     type: "POST",
@@ -155,7 +158,7 @@
                     data: {
                         videojuegoId: videojuegoId
                     },
-                    success: function(result) {
+                    success: function (result) {
                         if (result == "Videojuego eliminado exitosamente") {
                             // Eliminar la fila de la tabla
                             videojuegoRow.remove();
@@ -165,7 +168,7 @@
                         myDeleteModal.hide();
 
                         // Mostrar el alert después de 0.2 segundos
-                        setTimeout(function() {
+                        setTimeout(function () {
                             alert(result);
                         }, 200);
                     }
@@ -173,9 +176,9 @@
             });
 
             // Manejar el evento click de los botones de agregar
-            $('[data-toggle="modal"]').click(function() {
+            $('[data-toggle="modal"]').click(function () {
                 // Cuando se haga clic en el botón "Agregar"
-                $.get('agregar_videojuego.php', function(response, status, xhr) {
+                $.get('agregar_videojuego.php', function (response, status, xhr) {
                     if (status == "error") {
                         alert("Error: " + xhr.status + " " + xhr.statusText);
                     } else {
