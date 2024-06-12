@@ -19,31 +19,38 @@
 <body>
     <div class="container mb-3 d-flex justify-content-center">
         <div class="bg-dark text-white p-3 rounded">
-            <h2><i class="fas fa-gamepad"></i> Agregar/Editar Videojuego</h2>
+            <h2><i class="fas fa-gamepad"></i> Editar Videojuego</h2>
             <form id="gameForm">
+                <input type="hidden" id="id" name="id"> <!-- Agregar un campo oculto para almacenar el ID -->
                 <div class="form-group">
                     <label for="name"><i class="fas fa-user-ninja"></i> Nombre</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Ingresa el nombre" required>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Ingresa el nombre"
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="rating"><i class="fas fa-star"></i> Clasificación</label>
-                    <input type="text" class="form-control" id="rating" name="rating" placeholder="Ingresa la clasificación" required>
+                    <input type="text" class="form-control" id="rating" name="rating"
+                        placeholder="Ingresa la clasificación" required>
                 </div>
                 <div class="form-group">
                     <label for="description"><i class="fas fa-scroll"></i> Descripción</label>
-                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Ingresa la descripción" required></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="3"
+                        placeholder="Ingresa la descripción" required></textarea>
                 </div>
                 <div class="form-group">
                     <label for="price"><i class="fas fa-tag"></i> Precio</label>
-                    <input type="number" min="0.01" step="0.01" class="form-control" id="price" name="price" placeholder="Ingresa el precio" required>
+                    <input type="number" min="0.01" step="0.01" class="form-control" id="price" name="price"
+                        placeholder="Ingresa el precio" required>
                 </div>
                 <div class="form-group">
                     <label for="company"><i class="fas fa-industry"></i> Compañía</label>
-                    <input type="text" class="form-control" id="company" name="company" placeholder="Ingresa la compañía" required>
+                    <input type="text" class="form-control" id="company" name="company"
+                        placeholder="Ingresa la compañía" required>
                 </div>
                 <div class="form-group">
                     <label for="quantity"><i class="fas fa-dice"></i> Cantidad</label>
-                    <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Ingresa la cantidad" required min="1" step="1">
+                    <input type="number" class="form-control" id="quantity" name="quantity"
+                        placeholder="Ingresa la cantidad" required min="1" step="1">
                 </div>
                 <div class="form-group">
                     <label for="release-date"><i class="fas fa-calendar-alt"></i> Fecha de Lanzamiento</label>
@@ -72,6 +79,7 @@
                     data: { id: id },
                     dataType: "json",
                     success: function (data) {
+                        $('#id').val(data.id); // Establecer el valor del campo ID
                         $('#name').val(data.nombre);
                         $('#rating').val(data.clasificacion);
                         $('#description').val(data.descripcion);
@@ -79,12 +87,18 @@
                         $('#company').val(data.compania);
                         $('#quantity').val(data.cantidad);
                         $('#release-date').val(data.fecha_lanzamiento);
-                        $('#gameForm').attr('data-id', id);
                     },
                     error: function (xhr, status, error) {
                         console.error('Error al obtener datos del videojuego:', error);
                     }
                 });
+            }
+
+            // Si hay un ID en la URL, cargar los datos del videojuego
+            var urlParams = new URLSearchParams(window.location.search);
+            var id = urlParams.get('id');
+            if (id) {
+                cargarDatos(id);
             }
 
             // Manejar la submit del formulario
@@ -93,7 +107,7 @@
 
                 // Validar que los campos no estén vacíos ni contengan solo espacios en blanco
                 var fields = ["name", "rating", "description", "company"];
-                var title = ["nombre", "clasificación", "descripción", "compañia"];
+                var title = ["nombre", "clasificación", "descripción", "compañia"]
                 for (var i = 0; i < fields.length; i++) {
                     var value = document.getElementById(fields[i]).value;
                     if (!value || !value.trim()) {
@@ -103,12 +117,9 @@
                 }
 
                 var formData = $(this).serialize();
-                var id = $(this).attr('data-id');
-                var url = id ? "../BD/actualizar_videojuego.php" : "../BD/insertar_videojuegos.php";
-
                 $.ajax({
                     type: "POST",
-                    url: url,
+                    url: "../BD/update_videojuegos.php", // Cambiar la URL al archivo de actualización
                     data: formData,
                     success: function (result) {
                         console.log(result);
@@ -117,13 +128,6 @@
                     }
                 });
             });
-
-            // Si hay un ID en la URL, cargar los datos del videojuego
-            var urlParams = new URLSearchParams(window.location.search);
-            var id = urlParams.get('id');
-            if (id) {
-                cargarDatos(id);
-            }
         });
     </script>
 </body>
