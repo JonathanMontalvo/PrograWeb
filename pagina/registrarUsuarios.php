@@ -6,18 +6,17 @@
     <style>
         body {
             font-family: sans-serif;
-            background-image: url('../pagina/assets/registro.jpeg'); /* Reemplaza con la ruta a tu imagen */
+            background-image: url('./assets/registro.jpeg'); /* Reemplaza con la ruta a tu imagen */
             background-size: cover; /* Cubrir toda la pantalla */
             background-position: center; /* Centrar la imagen */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0; /* Eliminar márgenes predeterminados */
         }
 
         form {
-            background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente para el formulario */
+            background-color: rgba(255, 255, 255, 0.7); /* Fondo semitransparente para el formulario */
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -103,7 +102,7 @@
         errorModals.forEach(modal => modal.style.display = 'none');
 
         try {
-            const response = await fetch('registro.php', {
+            const response = await fetch('../BD/registro.php', {
                 method: 'POST',
                 body: new FormData(form)
             });

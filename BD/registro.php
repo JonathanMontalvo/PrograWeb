@@ -1,40 +1,6 @@
 <?php
-// Dentro de la misma página, después del formulario y el script
-class Database
-{
-    private $connection;
 
-    public function __construct()
-    {
-    }
-
-    public function verificarDriver()
-    {
-        $miArray = (PDO::getAvailableDrivers());
-        $encontrado = false;
-        foreach ($miArray as $n) {
-            if ($n == 'mysql') {
-                $encontrado = true;
-                break;
-            }
-        }
-        return $encontrado;
-    }
-
-    public function getConnection()
-    {
-        $options = [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-        ];
-        $dns = "mysql:host=localhost;dbname=venta_videojuegos";
-        $user = "root";
-        $password = "";
-        $this->connection = new PDO($dns, $user, $password, $options);
-        $this->connection->exec("SET CHARACTER SET UTF8");
-        return $this->connection;
-    }
-}
+require_once ('database.php');
 
 $db = new Database();
 
@@ -66,12 +32,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errores['contrasenia'] = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.";
     }
 
-    // Validación de fecha de nacimiento (puedes usar una expresión regular o strtotime para verificar el formato)
-    $fechaNacimientoTimestamp = strtotime($fecha_nacimiento);
-    if ($fechaNacimientoTimestamp === false) {
-        $errores['fecha_nacimiento'] = "La fecha de nacimiento no es válida.";
-    } else {
-        $fecha_nacimiento = date('Y-m-d', $fechaNacimientoTimestamp); // Convertir a formato YYYY-MM-DD
+    // Validación de fecha de nacimiento
+    $fechaNacimiento = DateTime::createFromFormat('Y-m-d', $fecha_nacimiento);
+    $hoy = new DateTime();
+    $minimo = $hoy->modify('-18 years');
+
+    if (!$fechaNacimiento) {
+        $errores['fecha_nacimiento'] = "La fecha de nacimiento no es válida. Usa el formato YYYY-MM-DD.";
+    } elseif ($fechaNacimiento >= $minimo) {
+        $errores['fecha_nacimiento'] = "Debes tener al menos 18 años.";
     }
 
     if (empty($errores)) {
@@ -83,19 +52,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Prepared Statements (forma más segura)
             $sql = "INSERT INTO usuarios (nombre, apellido_paterno, apellido_materno, fecha_nacimiento, correo, contrasenia, rol) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+                        VALUES (:nombre, :apellido_paterno, :apellido_materno, :fecha_nacimiento, :correo, :contrasenia, :rol)"; 
             $stmt = $conn->prepare($sql);
-            $stmt->execute([$nombre, $apellido_paterno, $apellido_materno, $fecha_nacimiento, $correo, $hashed_password, "CLIENTE"]);
+            $stmt->execute([
+                ':nombre' => $nombre,
+                ':apellido_paterno' => $apellido_paterno,
+                ':apellido_materno' => $apellido_materno,
+                ':fecha_nacimiento' => $fechaNacimiento->format('Y-m-d'), // Formatear fecha
+                ':correo' => $correo,
+                ':contrasenia' => $hashed_password,
+                ':rol' => "CLIENTE"
+            ]);
 
             // Enviar respuesta de éxito
             header('Content-Type: application/json');
             echo json_encode(['success' => true]);
             exit;
         } catch (PDOException $e) {
-            // Enviar error en formato JSON
+            // Manejo de errores mejorado
             header('Content-Type: application/json');
-            http_response_code(500); // Código de error del servidor
-            echo json_encode(['error' => 'Error al registrar usuario: ' . $e->getMessage()]);
+            http_response_code(500); 
+            echo json_encode(['error' => 'Error al registrar usuario.']); // Mensaje genérico para el usuario
+            error_log('Error al registrar usuario: ' . $e->getMessage()); // Registrar el error real en el log del servidor
             exit;
         }
     } else {
@@ -106,4 +84,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 }
-?>
