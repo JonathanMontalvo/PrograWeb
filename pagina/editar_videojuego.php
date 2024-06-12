@@ -100,7 +100,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "../BD/update_videojuego.php",
+                    url: "../BD/update_videojuegos.php",
                     data: formData,
                     success: function (result) {
                         console.log(result);
