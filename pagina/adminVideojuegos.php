@@ -12,6 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
+    <h1>Si</h1>
     <div class="container">
         <h1 class="mt-5">Lista de Videojuegos</h1>
         <table id="tablaVideojuegos" class="table table-striped table-bordered mt-3">
@@ -32,6 +33,7 @@
             <tbody>
             </tbody>
         </table>
+        <button id="mostrarTodo" class="btn btn-primary mt-3" style="display:none;">Mostrar Todo</button>
     </div>
     <!-- Incluyendo jQuery y Bootstrap JS -->
 
@@ -55,7 +57,7 @@
                         row += '<td>' + videojuego.fecha_lanzamiento + '</td>';
                         row += '<td><button class="btn btn-success btn-sm">ver</button></td>';
                         row += '<td><button class="btn btn-info btn-sm">editar</button></td>';
-                        row += '<td><button class="btn btn-danger btn-sm">elimiar</button></td>';
+                        row += '<td><button class="btn btn-danger btn-sm">eliminar</button></td>';
                         row += '</tr>';
                         $('#tablaVideojuegos tbody').append(row);
                     });
@@ -64,23 +66,29 @@
                     console.error('Error al obtener datos de videojuegos:', error);
                 }
             });
+
             // Manejar el evento click de los botones de acción
             $('#tablaVideojuegos').on('click', '.btn-success', function(){
                 var row = $(this).closest('tr');
-                var id = row.find('td:nth-child(1)').text();
-                var nombre = row.find('td:nth-child(2)').text();
-                var clasificacion = row.find('td:nth-child(3)').text();
-                // Aquí puedes agregar el código para manejar la acción del botón
-                alert('Acción 1 - ID: ' + id + '\nNombre: ' + nombre+'\nClasificacion: '+clasificacion);
-            });
-            // Manejar el evento click de los botones de editar
-            $('#tablaVideojuegos').on('click', '.btn-info', function(){
-                
+                $('#tablaVideojuegos tbody tr').hide(); // Ocultar todas las filas
+                row.show(); // Mostrar solo la fila seleccionada
+                $('#mostrarTodo').show(); // Mostrar el botón para mostrar todas las filas
             });
 
-            // Manejar el evento click de los botones  de eliminar
+            // Manejar el evento click del botón "Mostrar Todo"
+            $('#mostrarTodo').on('click', function(){
+                $('#tablaVideojuegos tbody tr').show(); // Mostrar todas las filas
+                $(this).hide(); // Ocultar el botón "Mostrar Todo"
+            });
+
+            // Manejar el evento click de los botones de editar
+            $('#tablaVideojuegos').on('click', '.btn-info', function(){
+                // Aquí puedes agregar el código para manejar la acción del botón de editar
+            });
+
+            // Manejar el evento click de los botones de eliminar
             $('#tablaVideojuegos').on('click', '.btn-danger', function(){
-              
+                // Aquí puedes agregar el código para manejar la acción del botón de eliminar
             });
         });
     </script>
