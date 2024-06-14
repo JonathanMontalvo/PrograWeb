@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Prepared Statements (forma más segura)
             $sql = "INSERT INTO usuarios (nombre, apellido_paterno, apellido_materno, fecha_nacimiento, correo, contrasenia, rol) 
-                        VALUES (:nombre, :apellido_paterno, :apellido_materno, :fecha_nacimiento, :correo, :contrasenia, :rol)"; 
+                        VALUES (:nombre, :apellido_paterno, :apellido_materno, :fecha_nacimiento, :correo, :contrasenia, :rol)";
             $stmt = $conn->prepare($sql);
             $stmt->execute([
                 ':nombre' => $nombre,
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } catch (PDOException $e) {
             // Manejo de errores mejorado
             header('Content-Type: application/json');
-            http_response_code(500); 
+            http_response_code(500);
             echo json_encode(['error' => 'Error al registrar usuario.']); // Mensaje genérico para el usuario
             error_log('Error al registrar usuario: ' . $e->getMessage()); // Registrar el error real en el log del servidor
             exit;
