@@ -9,7 +9,7 @@
     <!-- Ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
-        .modal-agregar {
+        .modal-editar {
             background: none;
             border: none;
         }
@@ -60,12 +60,13 @@
             </form>
         </div>
     </div>
-
+    <?php
+    $id = $_GET['id']; // Obtén el id que enviaste
+    ?>
     <script>
-         $(document).ready(function () {
+        $(document).ready(function () {
             // Obtener el ID del videojuego de la URL
-            var urlParams = new URLSearchParams(window.location.search);
-            var id = urlParams.get('id');
+            var id = "<?php echo $id; ?>";
 
             if (id) {
                 $.ajax({

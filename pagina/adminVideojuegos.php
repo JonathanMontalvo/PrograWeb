@@ -18,7 +18,7 @@
     <div class="container">
         <h1 class="mt-5 text-center">Lista de Videojuegos</h1>
 
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#miModal">
+        <button type="button" id="btnAgregar" class="btn btn-success" data-toggle="modal" data-target="#miModal">
             <i class="fas fa-plus"></i> Agregar
         </button>
 
@@ -27,6 +27,17 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content modal-agregar">
                     <div id="modalContentAgregar">
+                        <!-- Aquí se cargará el contenido del modal -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="miEditar" tabindex="-1" role="dialog" aria-labelledby="miEditarLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content modal-editar">
+                    <div id="modalContentEditar">
                         <!-- Aquí se cargará el contenido del modal -->
                     </div>
                 </div>
@@ -92,6 +103,7 @@
 
             var myDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'), {});
             var myModal = new bootstrap.Modal(document.getElementById('miModal'), {});
+            var myEditar = new bootstrap.Modal(document.getElementById('miEditar'), {});
 
             // Realizar una solicitud AJAX para obtener los datos de videojuegos
             $.ajax({
@@ -126,13 +138,15 @@
                 var row = $(this).closest('tr');
                 $('#tablaVideojuegos tbody tr').hide(); // Ocultar todas las filas
                 row.show(); // Mostrar solo la fila seleccionada
+                $('#btnAgregar').hide();
                 $('#mostrarTodo').show(); // Mostrar el botón para mostrar todas las filas
             });
 
             // Manejar el evento click del botón "Mostrar Todo"
-            $('#mostrarTodo').on('click', function(){
+            $('#mostrarTodo').on('click', function () {
                 $('#tablaVideojuegos tbody tr').show(); // Mostrar todas las filas
                 $(this).hide(); // Ocultar el botón "Mostrar Todo"
+                $('#btnAgregar').show();
             });
 
             // Manejar el evento click de los botones de editar
@@ -142,7 +156,16 @@
                 var id = row.find('td:nth-child(1)').text();
 
                 // Redirigir a la página de edición con el ID del videojuego como parámetro de consulta en la URL
-                window.location.href = 'editar_videojuego.php?id=' + id;
+                $.get('editar_videojuego.php', { id: id }, function (response, status, xhr) {
+                    if (status == "error") {
+                        alert("Error: " + xhr.status + " " + xhr.statusText);
+                    } else {
+                        
+                        console.log("Contenido cargado exitosamente!");
+                        $('#modalContentEditar').html(response);
+                        myEditar.show();
+                    }
+                });
             });
 
             // Manejar el evento click de los botones de eliminar

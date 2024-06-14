@@ -40,21 +40,21 @@ class Orm
     function updateByID($id, $data)
     {
         $sql = "UPDATE {$this->table} SET ";
+        $params = [];
         foreach ($data as $key => $value) {
-            $sql .= "{$key} = : {$value}";
+            $sql .= "{$key} = :{$key}, ";
+            $params[":{$key}"] = $value;
         }
 
-        $fin = strrpos("$sql", ",");
-        $sql = substr($sql, 0, $fin);
-        $sql .= "WHERE id = :id";
-
-        $data['id'] = $id;
+        $sql = rtrim($sql, ', ');
+        $sql .= " WHERE id = :id";
+        $params[':id'] = $id;
 
         $stm = $this->db->prepare($sql);
 
         $success = false;
         try {
-            $success = $stm->execute($data);
+            $success = $stm->execute($params);
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
