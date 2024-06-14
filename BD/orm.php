@@ -63,6 +63,7 @@ class Orm
 
     function insert($data)
     {
+        
         $sql = "INSERT INTO {$this->table}(";
         $values = "(";
         foreach ($data as $key => $value) {
@@ -71,6 +72,8 @@ class Orm
         }
 
         $sql = rtrim($sql, ', ') . ') VALUES ' . rtrim($values, ', ') . ')';
+        var_dump($sql); 
+        var_dump($data);
         $stm = $this->db->prepare($sql);
 
         $success = false;

@@ -1,7 +1,7 @@
 <?php
-require_once ('database.php');
-require_once ('orm.php');
-require_once ('videojuegos.php');
+require_once('database.php');
+require_once('orm.php');
+require_once('videojuegos.php');
 
 function validarDatos($data)
 {
@@ -64,4 +64,3 @@ if ($encontrado) {
         }
     }
 }
-?>

@@ -1,86 +1,79 @@
 <?php
+require_once('database.php'); // Asegúrate de que la ruta sea correcta
+require_once('orm.php');
 
-require_once ('database.php');
-
+// Crear una instancia de Database para obtener la conexión
 $db = new Database();
+$conn = $db->getConnection();
 
-// Validaciones del lado del servidor
+// Crear una instancia de Orm con la conexión
+$orm = new Orm(null, 'usuarios', $conn);
+
 $errores = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre = $_POST['nombre'];
-    $apellido_paterno = $_POST['apellido_paterno'];
-    $apellido_materno = $_POST['apellido_materno'];
+    $nombre = trim($_POST['nombre']);
+    $apellido_paterno = trim($_POST['apellido_paterno']);
+    $apellido_materno = trim($_POST['apellido_materno']);
     $fecha_nacimiento = $_POST['fecha_nacimiento'];
-    $correo = $_POST['correo'];
+    $correo = trim($_POST['correo']);
     $contrasenia = $_POST['contrasenia'];
 
-    // Validaciones Mejoradas
-    if (!preg_match("/^[a-zA-Z]+$/", $nombre)) {
-        $errores['nombre'] = "El nombre solo puede contener letras.";
+    // Validaciones mejoradas
+    if (!preg_match("/^[a-zA-Z\sñÑáéíóúÁÉÍÓÚ]+$/", $nombre)) {
+        $errores['nombre'] = "El nombre solo puede contener letras y espacios.";
     }
-    if (!preg_match("/^[a-zA-Z]+$/", $apellido_paterno)) {
-        $errores['apellido_paterno'] = "El apellido paterno solo puede contener letras.";
+    if (!preg_match("/^[a-zA-Z\sñÑáéíóúÁÉÍÓÚ]+$/", $apellido_paterno)) {
+        $errores['apellido_paterno'] = "El apellido paterno solo puede contener letras y espacios.";
     }
-    if (!preg_match("/^[a-zA-Z]+$/", $apellido_materno)) {
-        $errores['apellido_materno'] = "El apellido materno solo puede contener letras.";
+    if (!preg_match("/^[a-zA-Z\sñÑáéíóúÁÉÍÓÚ]+$/", $apellido_materno)) {
+        $errores['apellido_materno'] = "El apellido materno solo puede contener letras y espacios.";
     }
     if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
         $errores['correo'] = "El correo electrónico no es válido.";
     }
+
+    // Validación de contraseña (al menos 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial)
     if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $contrasenia)) {
-        $errores['contrasenia'] = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.";
+        $errores['contrasenia'] = "La contraseña debe tener al menos 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial.";
     }
 
-    // Validación de fecha de nacimiento
-    $fechaNacimiento = DateTime::createFromFormat('Y-m-d', $fecha_nacimiento);
+    // Validación de fecha de nacimiento (mayor de 18 años)
     $hoy = new DateTime();
     $minimo = $hoy->modify('-18 years');
-
-    if (!$fechaNacimiento) {
-        $errores['fecha_nacimiento'] = "La fecha de nacimiento no es válida. Usa el formato YYYY-MM-DD.";
-    } elseif ($fechaNacimiento >= $minimo) {
-        $errores['fecha_nacimiento'] = "Debes tener al menos 18 años.";
+    $fechaNacimiento = DateTime::createFromFormat('Y-m-d', $fecha_nacimiento);
+    if (!$fechaNacimiento || $fechaNacimiento >= $minimo) {
+        $errores['fecha_nacimiento'] = "Debes ser mayor de 18 años.";
     }
+
+    // Encriptar la contraseña (SHA1)
+    $contraseniaEncriptada = sha1($contrasenia);
 
     if (empty($errores)) {
         try {
-            $conn = $db->getConnection();
+            // Preparar los datos para el ORM (sin los dos puntos en las claves)
+            $data = [
+                'nombre' => $nombre,
+                'apellido_paterno' => $apellido_paterno,
+                'apellido_materno' => $apellido_materno,
+                'fecha_nacimiento' => $fecha_nacimiento,
+                'correo' => $correo,
+                'contrasenia' => $contraseniaEncriptada,
+                'rol' => "CLIENTE"
+            ];
 
-            // Hash de la contraseña (¡MUY IMPORTANTE!)
-            $hashed_password = password_hash($contrasenia, PASSWORD_DEFAULT);
-
-            // Prepared Statements (forma más segura)
-            $sql = "INSERT INTO usuarios (nombre, apellido_paterno, apellido_materno, fecha_nacimiento, correo, contrasenia, rol) 
-                        VALUES (:nombre, :apellido_paterno, :apellido_materno, :fecha_nacimiento, :correo, :contrasenia, :rol)"; 
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([
-                ':nombre' => $nombre,
-                ':apellido_paterno' => $apellido_paterno,
-                ':apellido_materno' => $apellido_materno,
-                ':fecha_nacimiento' => $fechaNacimiento->format('Y-m-d'), // Formatear fecha
-                ':correo' => $correo,
-                ':contrasenia' => $hashed_password,
-                ':rol' => "CLIENTE"
-            ]);
-
-            // Enviar respuesta de éxito
-            header('Content-Type: application/json');
-            echo json_encode(['success' => true]);
-            exit;
+            // Usar el método insert del ORM
+            if ($orm->insert($data)) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['error' => 'Error al registrar usuario.']);
+            }
         } catch (PDOException $e) {
-            // Manejo de errores mejorado
-            header('Content-Type: application/json');
-            http_response_code(500); 
-            echo json_encode(['error' => 'Error al registrar usuario.']); // Mensaje genérico para el usuario
-            error_log('Error al registrar usuario: ' . $e->getMessage()); // Registrar el error real en el log del servidor
-            exit;
+            echo json_encode(['error' => 'Error en la base de datos.']);
+            error_log('Error al registrar usuario: ' . $e->getMessage());
         }
     } else {
-        // Enviar errores de validación en formato JSON
-        header('Content-Type: application/json');
-        http_response_code(400); // Código de solicitud incorrecta
-        echo json_encode($errores);
-        exit;
+        echo json_encode(['errors' => $errores]);
     }
 }
+?>
