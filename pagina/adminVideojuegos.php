@@ -14,6 +14,7 @@
 </head>
 
 <body>
+    <h1>Si</h1>
     <div class="container">
         <h1 class="mt-5 text-center">Lista de Videojuegos</h1>
 
@@ -72,6 +73,7 @@
             <tbody>
             </tbody>
         </table>
+        <button id="mostrarTodo" class="btn btn-primary mt-3" style="display:none;">Mostrar Todo</button>
     </div>
 
 
@@ -122,11 +124,15 @@
             // Manejar el evento click de los botones de acción
             $('#tablaVideojuegos').on('click', '.btn-success', function () {
                 var row = $(this).closest('tr');
-                var id = row.find('td:nth-child(1)').text();
-                var nombre = row.find('td:nth-child(2)').text();
-                var clasificacion = row.find('td:nth-child(3)').text();
-                // Aquí puedes agregar el código para manejar la acción del botón
-                alert('Acción 1 - ID: ' + id + '\nNombre: ' + nombre + '\nClasificación: ' + clasificacion);
+                $('#tablaVideojuegos tbody tr').hide(); // Ocultar todas las filas
+                row.show(); // Mostrar solo la fila seleccionada
+                $('#mostrarTodo').show(); // Mostrar el botón para mostrar todas las filas
+            });
+
+            // Manejar el evento click del botón "Mostrar Todo"
+            $('#mostrarTodo').on('click', function(){
+                $('#tablaVideojuegos tbody tr').show(); // Mostrar todas las filas
+                $(this).hide(); // Ocultar el botón "Mostrar Todo"
             });
 
             // Manejar el evento click de los botones de editar
