@@ -24,7 +24,7 @@
         <header>
             <h1 class="tii">BIENVENIDO <i class="fas fa-robot" style="font-size: 60px; position: relative; top: -13px;" ></i></h1>
             <h2>¡Lo último en entretenimiento!</h2>
-            <a href="Login.php">
+            <a href="Login_Usuarios.php">
                 <br>
             <button type="button">
                 Compra ahora!!
