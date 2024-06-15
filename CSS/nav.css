@@ -4,7 +4,6 @@
     box-sizing: border-box;
 }
 
-
 nav {
     position: absolute;
     z-index: 8;
@@ -12,9 +11,13 @@ nav {
     right: 0;
     top: 0;
     font-family: 'Share Tech', sans-serif;
-    padding: 0 5%;
     height: 80px;
     background-color: #0e3e56;
+    padding: 20px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
 }
 
  .ti {
@@ -37,6 +40,12 @@ nav .list {
 
 nav .list li {
     list-style: none;
+}
+
+.b{
+    list-style: none;
+    color: #ffffff;
+    text-decoration: none;
 }
 
 nav .list a {

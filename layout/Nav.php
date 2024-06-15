@@ -13,10 +13,11 @@
 
 
 </head>
-<body>
 <nav>
         <input type="checkbox" id="toggle">
-        <span class="ti"><i class="fas fa-gamepad" style="font-size: 50px;"></i> VIDEOGAMES </span>
+        <span class="ti"><i class="fas fa-gamepad" style="font-size: 50px;" a href></i>
+        <a href="../pagina/index.php" class="b">VIDEOGAMES</a>  
+        </span>
         <ul class="list">
             <li><a href="../pagina/Login_Usuarios.php">Inicia Sesión</a></li>
             <li><a href="">Registrate</a></li>
@@ -27,5 +28,5 @@
             <div class="line"></div>
         </label>
     </nav>
-</body>
+
 </html>

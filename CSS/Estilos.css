@@ -16,6 +16,7 @@ body{
     min-height: 100vh;
 }
 
+
 .form{
     background-color: #fff;
     margin: auto;
@@ -80,6 +81,9 @@ body{
     left: 5px;
     transform: translateY(10px);
     transition: transform .5s, color .3s;
+}
+.b{
+    font-size: 62.5%;
 }
 
 
