@@ -14,14 +14,14 @@ function validarDatos($data)
         }
     }
 
-    // Validar que 'precio' sea un entero
-    if (!filter_var($data['precio'], FILTER_VALIDATE_INT)) {
-        $errores[] = "El campo 'precio' debe ser un número entero.";
+    // Validar que 'cantidad' sea un entero
+    if (!filter_var($data['cantidad'], FILTER_VALIDATE_INT)) {
+        $errores[] = "El campo 'cantidad' debe ser un número entero.";
     }
 
-    // Validar que 'cantidad' sea un double con hasta dos decimales
-    if (!preg_match('/^\d+(\.\d{1,2})?$/', $data['cantidad'])) {
-        $errores[] = "El campo 'cantidad' debe ser un número con hasta dos decimales.";
+    // Validar que 'precio' sea un double con hasta dos decimales
+    if (!preg_match('/^\d+(\.\d{1,2})?$/', $data['precio'])) {
+        $errores[] = "El campo 'precio' debe ser un número con hasta dos decimales.";
     }
 
     // Validar que 'fecha_lanzamiento' sea una fecha válida en formato YYYY-MM-DD
