@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,12 +13,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <!-- Ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-</head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+ 
 
+</head>
+<?php
+    include('../layout/Nav_Admin.php');
+?>
 <body>
-    <h1>Si</h1>
+<br>
     <div class="container">
-        <h1 class="mt-5 text-center">Lista de Videojuegos</h1>
+        <h1 class="mt-5 text-center sty">Lista de Videojuegos</h1>
 
         <button type="button" id="btnAgregar" class="btn btn-success" data-toggle="modal" data-target="#miModal">
             <i class="fas fa-plus"></i> Agregar
@@ -220,6 +229,8 @@
 
         });
     </script>
+
+
 </body>
 
 </html>
