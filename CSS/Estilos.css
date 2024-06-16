@@ -90,7 +90,7 @@ footer{
     font-size: 62.5%;
 }
 
-.form_submit{
+button{
     background-color: #0e3e56;
     color: #fff;
     font-family: 'Roboto', sans-serif;
@@ -98,4 +98,15 @@ footer{
     font-size: 1rem;
     padding: none;
     border-radius: .5em;
+}
+.error-modal {
+    display: none;
+    position: absolute;
+    background-color: #f44336;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    z-index: 1;
+    font-size: 12px;
+    margin-top: 5px;
 }

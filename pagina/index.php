@@ -28,7 +28,6 @@
                 <br>
             <button type="button">
                 Compra ahora!!
-                <img src="icono/bxs-right-arrow-alt.svg" alt="">
             </button></a>
         </header>
         <img class="emp" src="../IMG/EMP.png" alt="">
