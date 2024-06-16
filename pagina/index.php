@@ -34,5 +34,6 @@
         <img class="emp" src="../IMG/EMP.png" alt="">
         <img class="fondo-emp" src="../IMG/pattern..png" alt="">
     </div>
+    <?php include('../layout/footer.php'); ?>
 </body>
 </html>

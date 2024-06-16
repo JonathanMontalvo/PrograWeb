@@ -1,5 +1,6 @@
 <?php
-include ('../layout/Nav.php');
+    include('../layout/Nav.php');
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +44,7 @@ include ('../layout/Nav.php');
             <input type="submit" name="Entrar" class="form_submit" value="Entrar">
         </div> <!-- Cierre de la primera sección form_container -->
     </form>
-
+    <?php include('../layout/footer.php'); ?> 
 </body>
 
 </html>

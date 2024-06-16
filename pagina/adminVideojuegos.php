@@ -11,6 +11,8 @@ include ('../layout/NavAdmin.php');
     <!-- Incluyendo Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -20,10 +22,12 @@ include ('../layout/NavAdmin.php');
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
+</head>
+
 <body>
     <h1>-</h1>
     <div class="container">
-        <h1 class="mt-5 text-center">Lista de Videojuegos</h1>
+        <h1 class="mt-5 text-center sty">Lista de Videojuegos</h1>
 
         <button type="button" id="btnAgregar" class="btn btn-success" data-toggle="modal" data-target="#miModalAgregar">
             <i class="fas fa-plus"></i> Agregar
@@ -225,6 +229,8 @@ include ('../layout/NavAdmin.php');
 
         });
     </script>
+
+
 </body>
 
 </html>
