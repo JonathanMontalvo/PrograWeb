@@ -1,7 +1,7 @@
 <?php
-require_once('database.php');
-require_once('orm.php');
-require_once('usuarios.php');
+require_once ('database.php');
+require_once ('orm.php');
+require_once ('usuarios.php');
 
 $db = new Database();
 $encontrar = $db->verificarDriver();
@@ -9,7 +9,7 @@ if ($encontrar) {
     $cnn = $db->getConnection();
     $usrModelo = new Usuarios($cnn);
     $login = $_POST["Correo"];
-    $password = $_POST["pws"];
+    $password = sha1($_POST["pws"]);
     $data = "CORREO ='" . $login . "' AND contrasenia= '" . $password . "'";
     $usuarios = $usrModelo->validaLogin($data);
 
@@ -17,14 +17,16 @@ if ($encontrar) {
         $usr = $usuarios['nombre'];
         $_SESSION["usr"] = $usr;
         $rol = $usuarios['rol'];
-       
         if ($rol == 'CLIENTE') {
-            // require_once ("../sesion/homeUsr.php");
+            header('Location: ../pagina/usuario_videojuegos.php');
+            exit;
         } else {
-            require_once ("../pagina/adminVideojuegos.php");
+            header('Location: ../pagina/adminVideojuegos.php');
+            exit;
         }
     } else {
-        // require_once ("../sesion/index.php");
+        require_once ("../pagina/Login_Usuarios.php");
+        echo "<script>setTimeout(function() { alert('Usuario o contraseña incorrecta'); }, 200);</script>";
     }
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-    include('../layout/Nav.php');
+include ('../layout/Nav.php');
 ?>
 
 <!DOCTYPE html>
@@ -22,9 +22,10 @@
 <body>
     <form action="../BD/login.php" id="myForm" class="form" method="post">
         <h2 class="form_title">Inicia Sesión</h2>
-        <p class="form_paragraph">¿No eres cliente? <a href="*" class="form_link"  style="color: #076bad;">Entra aquí</a></p>
+        <p class="form_paragraph">¿No eres cliente? <a href="../pagina/registrarUsuarios.php" class="form_link"
+                style="color: #076bad;">Entra aquí</a></p>
 
-        <?php if (!empty($message)) : ?>
+        <?php if (!empty($message)): ?>
             <p style="color: #9e2020"><?php echo $message; ?></p>
         <?php endif; ?>
 

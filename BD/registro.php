@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $apellido_materno = $_POST['apellido_materno'];
     $fecha_nacimiento = $_POST['fecha_nacimiento'];
     $correo = $_POST['correo'];
-    $contrasenia = $_POST['contrasenia'];
+    $contrasenia = sha1($_POST['contrasenia']);
 
     // Validaciones Mejoradas
     if (!preg_match("/^[a-zA-Z]+$/", $nombre)) {
@@ -44,43 +44,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($errores)) {
-        try {
-            $conn = $db->getConnection();
+        $conn = $db->getConnection();
+        $usuariosModelo = new Usuarios($cnn);
+        $insertar = [];
 
-            // Hash de la contraseña (¡MUY IMPORTANTE!)
-            $hashed_password = password_hash($contrasenia, PASSWORD_DEFAULT);
+        $insertar['apellido_paterno'] = $apellido_paterno;
+        $insertar['apellido_materno'] = $apellido_materno;
+        $insertar['nombre'] = $nombre;
+        $insertar['fecha_nacimiento'] = $fechaNacimiento;
+        $insertar['correo'] = $correo;
+        $insertar['contrasenia'] = $contrasenia;
+        $insertar['rol'] = "CLIENTE";
 
-            // Prepared Statements (forma más segura)
-            $sql = "INSERT INTO usuarios (nombre, apellido_paterno, apellido_materno, fecha_nacimiento, correo, contrasenia, rol) 
-                        VALUES (:nombre, :apellido_paterno, :apellido_materno, :fecha_nacimiento, :correo, :contrasenia, :rol)";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([
-                ':nombre' => $nombre,
-                ':apellido_paterno' => $apellido_paterno,
-                ':apellido_materno' => $apellido_materno,
-                ':fecha_nacimiento' => $fechaNacimiento->format('Y-m-d'), // Formatear fecha
-                ':correo' => $correo,
-                ':contrasenia' => $hashed_password,
-                ':rol' => "CLIENTE"
-            ]);
-
-            // Enviar respuesta de éxito
-            header('Content-Type: application/json');
-            echo json_encode(['success' => true]);
-            exit;
-        } catch (PDOException $e) {
-            // Manejo de errores mejorado
-            header('Content-Type: application/json');
-            http_response_code(500);
-            echo json_encode(['error' => 'Error al registrar usuario.']); // Mensaje genérico para el usuario
-            error_log('Error al registrar usuario: ' . $e->getMessage()); // Registrar el error real en el log del servidor
-            exit;
-        }
-    } else {
-        // Enviar errores de validación en formato JSON
-        header('Content-Type: application/json');
-        http_response_code(400); // Código de solicitud incorrecta
-        echo json_encode($errores);
-        exit;
+        print_r($insertar);
     }
 }
