@@ -2,7 +2,7 @@
 require_once('database.php');
 require_once('orm.php');
 require_once('usuarios.php');
-
+session_start();
 $db = new Database();
 $encontrar = $db->verificarDriver();
 if ($encontrar) {

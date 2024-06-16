@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+nav {
+    position: absolute;
+    z-index: 8;
+    left: 0;
+    right: 0;
+    top: 0;
+    font-family: 'Share Tech', sans-serif;
+    height: 40px;
+    background-color: #0e3e56;
+    padding: 20px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+nav .list {
+    float: left;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .list li {
+    list-style: none;
+}
+
+.b{
+    list-style: none;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+nav .list a {
+    display: block;
+    text-transform: uppercase;
+    padding: 0px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+nav .list a:hover {
+    border-bottom: 4px solid #675bf9;
+}
+
+#toggle {
+    position: absolute;
+    top: -120px;
+}
+
+nav .icon-bars {
+    display: none;
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+nav .icon-bars .line {
+    width: 30px;
+    height: 5px;
+    background-color: #ffffff;
+    margin: 5px;
+    border-radius: 3px;
+    transition: all .3s ease-in-out;
+}
+
