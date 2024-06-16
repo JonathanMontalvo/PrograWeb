@@ -28,6 +28,7 @@ session_start();
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="../IMG/6941697.png" alt="Avatar del usuario">
                     <?php echo $_SESSION["usr"]; ?>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
