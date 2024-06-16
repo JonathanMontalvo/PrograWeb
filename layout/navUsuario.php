@@ -31,7 +31,7 @@ session_start();
                     <?php echo $_SESSION["usr"]; ?>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="../pagina/interes.php">Área de interes</a>
+                    <a class="dropdown-item" href="../pagina/interesUsuario.php">Área de interes</a>
                     <a class="dropdown-item" href="../BD/logout.php">Cerrar sesión</a>
                 </div>
             </div>

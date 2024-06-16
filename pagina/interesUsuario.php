@@ -1,3 +1,6 @@
+<?php
+include ('../layout/navUsuario.php');
+?>
 <!DOCTYPE html>
 <html>
 
@@ -17,20 +20,22 @@
 </head>
 
 <body>
+    <h1>-</h1>
+    <h1 class="mt-5 text-center sty">Datos de usuario</h1>
     <div class="container mb-3 d-flex justify-content-center">
         <div class="bg-dark text-white p-3 rounded">
             <h2><i class="fas fa-gamepad"></i> Editar Usuario</h2>
-            <form id="gameForm">
+            <form id="userForm">
                 <input type="hidden" id="id" name="id"> <!-- Agregar un campo oculto para almacenar el ID -->
                 <div class="form-group">
-                    <label for="name"><i class="fas fa-user-ninja"></i> Correo</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Ingresa el correo"
+                    <label for="email"><i class="fas fa-user-ninja"></i> Correo</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Ingresa el correo"
                         required>
                 </div>
                 <div class="form-group">
-                    <label for="company"><i class="fas fa-industry"></i> Contraseña</label>
-                    <input type="text" class="form-control" id="company" name="company"
-                        placeholder="Ingresa la compañía" required>
+                    <label for="password"><i class="fas fa-industry"></i>Contraseña</label>
+                    <input type="password" class="form-control" id="pws" name="pws" placeholder="Ingresa la contraseña "
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="release-date"><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento</label>
@@ -45,12 +50,12 @@
     ?>
     <script>
         $(document).ready(function () {
-            // Obtener el ID del videojuego de la URL
+            // Obtener el ID del usuario de la URL
             var id = "<?php echo $id; ?>";
 
             if (id) {
                 $.ajax({
-                    url: '../BD/obtener_videojuego.php', // Cambia esto al nombre del archivo PHP que obtenga los datos del videojuego
+                    url: '../BD/obtener_usuario.php', // Cambia esto al nombre del archivo PHP que obtenga los datos del videojuego
                     method: 'GET',
                     data: { id: id },
                     dataType: 'json',
@@ -60,33 +65,29 @@
                             return;
                         }
                         // Llenar el formulario con los datos del videojuego
-                        $('#name').val(response.nombre);
-                        $('#rating').val(response.clasificacion);
-                        $('#description').val(response.descripcion);
-                        $('#price').val(response.precio);
-                        $('#company').val(response.compania);
-                        $('#quantity').val(response.cantidad);
+                        $('#email').val(response.nombre);
+                        $('#password').val(response.cantidad);
                         $('#release-date').val(response.fecha_lanzamiento);
                     },
                     error: function (xhr, status, error) {
-                        console.error('Error al obtener datos del videojuego:', error);
+                        console.error('Error al obtener datos del usuario:', error);
                     }
                 });
             }
 
-            $("#gameForm").submit(function (e) {
+            $("#userForm").submit(function (e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize() + '&id=' + id; // Incluye el ID en los datos del formulario
 
                 $.ajax({
                     type: "POST",
-                    url: "../BD/update_videojuegos.php",
+                    url: "../BD/update_usuario.php",
                     data: formData,
                     success: function (result) {
                         console.log(result);
                         // Redirigir a adminVideojuegos.php
-                        window.location.href = 'adminVideojuegos.php';
+                        window.location.href = 'usuario_videojuegos.php';
                     }
                 });
             });
