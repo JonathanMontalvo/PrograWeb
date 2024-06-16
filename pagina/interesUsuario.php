@@ -112,7 +112,8 @@ include ('../layout/NavUsu.php');
                     success: function (result) {
                         console.log(result);
                         // Redirigir a adminVideojuegos.php
-                        //window.location.href = 'adminVideojuegos.php';
+                        alert('Actualización realizada correctamente')
+                        window.location.href = 'interesUsuario.php';
                     }
                 });
             });

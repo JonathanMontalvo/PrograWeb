@@ -31,7 +31,7 @@ if ($encontrar) {
         }
     } else {
         require_once ("../pagina/Login_Usuarios.php");
-        echo "<script>setTimeout(function() { alert('Usuario o contraseña incorrecta'); }, 200);</script>";
+        echo "<script>alert('Usuario o contraseña incorrecta'); window.location.href = '../pagina/Login_Usuarios.php';</script>";
     }
 }
 ?>
