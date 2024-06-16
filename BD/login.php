@@ -1,8 +1,8 @@
 <?php
 // Incluir archivos necesarios
-require_once('database.php');
-require_once('orm.php');
-require_once('usuarios.php');
+require_once ('database.php');
+require_once ('orm.php');
+require_once ('usuarios.php');
 
 // Iniciar sesión
 session_start();
@@ -68,12 +68,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $response = array('success' => false);
             }
         } else {
-            header('Location: ../pagina/adminVideojuegos.php');
-            exit;
+            // Respuesta de correo electrónico no válido
+            $response = array('success' => false);
         }
-    } else {
-        require_once ("../pagina/Login_Usuarios.php");
-        echo "<script>alert('Usuario o contraseña incorrecta'); window.location.href = '../pagina/Login_Usuarios.php';</script>";
+        header('Content-Type: application/json');
+
+        // Devolver la respuesta JSON al cliente
+        echo json_encode($response);
+        exit; // Salir para evitar cualquier salida adicional
     }
 }
 ?>
