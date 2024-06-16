@@ -1,28 +1,27 @@
 <?php
-require_once('database.php');
-require_once('orm.php');
-require_once('usuarios.php');
+require_once ('database.php');
+require_once ('orm.php');
+require_once ('usuarios.php');
+session_start();
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
 
-    $db = new Database();
-    $encontrado = $db->verificarDriver();
+$id = $_SESSION["id"];
 
-    if ($encontrado) {
-        $cnn = $db->getConnection();
-        $usuariosModelo = new Usuarios($cnn);
-        $usuario = $usuariosModelo->getByID($id);
+$db = new Database();
+$encontrado = $db->verificarDriver();
 
-        if ($usuario) {
-            echo json_encode($usuario);
-        } else {
-            echo json_encode(array('error' => 'Usuario no encontrado.'));
-        }
+if ($encontrado) {
+    $cnn = $db->getConnection();
+    $usuariosModelo = new Usuarios($cnn);
+    $usuario = $usuariosModelo->getByID($id);
+
+    if ($usuario) {
+        echo json_encode($usuario);
     } else {
-        echo json_encode(array('error' => 'Error al conectar a la base de datos.'));
+        echo json_encode(array('error' => 'Usuario no encontrado.'));
     }
 } else {
-    echo json_encode(array('error' => 'ID no proporcionado.'));
+    echo json_encode(array('error' => 'Error al conectar a la base de datos.'));
 }
+
 ?>

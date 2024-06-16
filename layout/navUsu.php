@@ -8,7 +8,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabla contenido</title>
+    <title>Editar</title>
     <link rel="stylesheet" href="../CSS/navUsuario.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -31,7 +31,7 @@ session_start();
                     <?php echo $_SESSION["usr"]; ?>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="../pagina/interesUsuario.php">Área de interes</a>
+                    <a class="dropdown-item" href="../pagina/usuario_videojuegos.php">Tabla de contenido</a>
                     <a class="dropdown-item" href="../BD/logout.php">Cerrar sesión</a>
                 </div>
             </div>

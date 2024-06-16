@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
         $errores['correo'] = "El correo electrónico no es válido.";
     }
-    if (!preg_match("/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/", $contrasenia)) {
+    if (!preg_match("/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,}$/", $contrasenia)) {
         $errores['contrasenia'] = "La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.";
     }
 

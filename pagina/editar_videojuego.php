@@ -19,21 +19,41 @@
 <body>
     <div class="container mb-3 d-flex justify-content-center">
         <div class="bg-dark text-white p-3 rounded">
-            <h2><i class="fas fa-gamepad"></i> Editar Usuario</h2>
+            <h2><i class="fas fa-gamepad"></i> Editar Videojuego</h2>
             <form id="gameForm">
                 <input type="hidden" id="id" name="id"> <!-- Agregar un campo oculto para almacenar el ID -->
                 <div class="form-group">
-                    <label for="name"><i class="fas fa-user-ninja"></i> Correo</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Ingresa el correo"
+                    <label for="name"><i class="fas fa-user-ninja"></i> Nombre</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Ingresa el nombre"
                         required>
                 </div>
                 <div class="form-group">
-                    <label for="company"><i class="fas fa-industry"></i> Contraseña</label>
+                    <label for="rating"><i class="fas fa-star"></i> Clasificación</label>
+                    <input type="text" class="form-control" id="rating" name="rating"
+                        placeholder="Ingresa la clasificación" required>
+                </div>
+                <div class="form-group">
+                    <label for="description"><i class="fas fa-scroll"></i> Descripción</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"
+                        placeholder="Ingresa la descripción" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="price"><i class="fas fa-tag"></i> Precio</label>
+                    <input type="number" min="0.01" step="0.01" class="form-control" id="price" name="price"
+                        placeholder="Ingresa el precio" required>
+                </div>
+                <div class="form-group">
+                    <label for="company"><i class="fas fa-industry"></i> Compañía</label>
                     <input type="text" class="form-control" id="company" name="company"
                         placeholder="Ingresa la compañía" required>
                 </div>
                 <div class="form-group">
-                    <label for="release-date"><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento</label>
+                    <label for="quantity"><i class="fas fa-dice"></i> Cantidad</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity"
+                        placeholder="Ingresa la cantidad" required min="1" step="1">
+                </div>
+                <div class="form-group">
+                    <label for="release-date"><i class="fas fa-calendar-alt"></i> Fecha de Lanzamiento</label>
                     <input type="date" class="form-control" id="release-date" name="release-date" required max="">
                 </div>
                 <button type="submit" class="btn btn-primary float-right"><i class="fas fa-save"></i> Guardar</button>
@@ -50,7 +70,7 @@
 
             if (id) {
                 $.ajax({
-                    url: '../BD/obtener_videojuego.php', // Cambia esto al nombre del archivo PHP que obtenga los datos del videojuego
+                    url: '../BD/obtener_videojuego.php', 
                     method: 'GET',
                     data: { id: id },
                     dataType: 'json',

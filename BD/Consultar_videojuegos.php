@@ -1,7 +1,7 @@
 <?php
-require_once('database.php');
-require_once('orm.php');
-require_once('videojuegos.php');
+require_once ('database.php');
+require_once ('orm.php');
+require_once ('videojuegos.php');
 
 $db = new Database();
 $encontrado = $db->verificarDriver();
@@ -21,7 +21,8 @@ if ($encontrado) {
             'descripcion' => $videojuego['descripcion'],
             'precio' => $videojuego['precio'],
             'compania' => $videojuego['compania'],
-            'fecha_lanzamiento' => $videojuego['fecha_lanzamiento']
+            'fecha_lanzamiento' => $videojuego['fecha_lanzamiento'],
+            'cantidad' => $videojuego['cantidad']
         );
     }
 

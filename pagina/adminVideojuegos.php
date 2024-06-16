@@ -24,10 +24,10 @@ include ('../layout/NavAdmin.php');
 
 </head>
 
-<body>
+<body style="background-color: #c4c4c4;">
     <h1>-</h1>
     <div class="container">
-        <h1 class="mt-5 text-center sty">Lista de Videojuegos</h1>
+        <h1 class="mt-5 text-center text-light font-weight-bold">Lista de Videojuegos</h1>
 
         <button type="button" id="btnAgregar" class="btn btn-success" data-toggle="modal" data-target="#miModalAgregar">
             <i class="fas fa-plus"></i> Agregar
@@ -77,7 +77,7 @@ include ('../layout/NavAdmin.php');
             </div>
         </div>
 
-        <table id="tablaVideojuegos" class="table table-striped table-bordered">
+        <table id="tablaVideojuegos" class="table table-striped table-bordered table-secondary">
             <thead class="thead-dark">
                 <tr>
                     <th>ID</th>

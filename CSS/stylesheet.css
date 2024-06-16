@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.tii {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 5rem;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000;
+}

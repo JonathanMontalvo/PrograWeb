@@ -20,6 +20,7 @@ if ($encontrar) {
         $l_name = $usuarios['apellido_paterno'];
         $s_name = $usuarios['apellido_materno'];
         $_SESSION["usr"] = $name . " " . $l_name . " " . $s_name;
+        $_SESSION["id"] = $usuarios['id'];
         $rol = $usuarios['rol'];
         if ($rol == 'CLIENTE') {
             header('Location: ../pagina/usuario_videojuegos.php');
