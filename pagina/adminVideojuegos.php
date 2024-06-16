@@ -1,3 +1,6 @@
+<?php
+include ('../layout/NavAdmin.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,20 +12,24 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <!-- Ajax -->
+    <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-    <h1>Si</h1>
+    <h1>-</h1>
     <div class="container">
         <h1 class="mt-5 text-center">Lista de Videojuegos</h1>
 
-        <button type="button" id="btnAgregar" class="btn btn-success" data-toggle="modal" data-target="#miModal">
+        <button type="button" id="btnAgregar" class="btn btn-success" data-toggle="modal" data-target="#miModalAgregar">
             <i class="fas fa-plus"></i> Agregar
         </button>
 
-        <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="miModalLabel"
+        <div class="modal fade" id="miModalAgregar" tabindex="-1" role="dialog" aria-labelledby="miModalAgregarLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content modal-agregar">
@@ -33,7 +40,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="miEditar" tabindex="-1" role="dialog" aria-labelledby="miEditarLabel"
+        <div class="modal fade" id="miModalEditar" tabindex="-1" role="dialog" aria-labelledby="miModalEditarLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content modal-editar">
@@ -86,14 +93,6 @@
         </table>
         <button id="mostrarTodo" class="btn btn-primary mt-3" style="display:none;">Mostrar Todo</button>
     </div>
-
-
-    <!-- Incluyendo jQuery y Bootstrap JS -->
-    <!-- Popper.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
     <script>
         $(document).ready(function () {
             // Variable para guardar el ID del videojuego
@@ -101,9 +100,10 @@
             // Variable para guardar la fila del videojuego
             var videojuegoRow;
 
+            // Inicializar los modales de Bootstrap
             var myDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'), {});
-            var myModal = new bootstrap.Modal(document.getElementById('miModal'), {});
-            var myEditar = new bootstrap.Modal(document.getElementById('miEditar'), {});
+            var myModalAgregar = new bootstrap.Modal(document.getElementById('miModalAgregar'), {});
+            var myModalEditar = new bootstrap.Modal(document.getElementById('miModalEditar'), {});
 
             // Realizar una solicitud AJAX para obtener los datos de videojuegos
             $.ajax({
@@ -155,15 +155,18 @@
                 var row = $(this).closest('tr');
                 var id = row.find('td:nth-child(1)').text();
 
-                // Redirigir a la página de edición con el ID del videojuego como parámetro de consulta en la URL
+                // Limpiar contenido anterior del modal
+                $('#modalContentAgregar').empty();
+
+                // Cargar nuevo contenido en el modal
                 $.get('editar_videojuego.php', { id: id }, function (response, status, xhr) {
                     if (status == "error") {
                         alert("Error: " + xhr.status + " " + xhr.statusText);
                     } else {
-                        
-                        console.log("Contenido cargado exitosamente!");
+                        console.log(response);
+                        console.log("Contenido editar cargado exitosamente!");
                         $('#modalContentEditar').html(response);
-                        myEditar.show();
+                        myModalEditar.show();
                     }
                 });
             });
@@ -180,7 +183,8 @@
 
             // Manejar el evento click del botón de eliminar en el modal
             $(document).on('click', '#confirmDeleteModal .btn-danger', function () {
-                console.log('Hola' + videojuegoId);
+                console.log('Eliminando videojuego con ID: ' + videojuegoId);
+                // Realizar una solicitud AJAX para eliminar el videojuego
                 $.ajax({
                     type: "POST",
                     url: "../BD/eliminar_videojuego.php",
@@ -192,11 +196,7 @@
                             // Eliminar la fila de la tabla
                             videojuegoRow.remove();
                         }
-
-                        // Cerrar el modal
                         myDeleteModal.hide();
-
-                        // Mostrar el alert después de 0.2 segundos
                         setTimeout(function () {
                             alert(result);
                         }, 200);
@@ -204,16 +204,21 @@
                 });
             });
 
-            // Manejar el evento click de los botones de agregar
-            $('[data-toggle="modal"]').click(function () {
-                // Cuando se haga clic en el botón "Agregar"
+            // Manejar el evento click del botón de agregar
+            $('#btnAgregar').on('click', function () {
+                // Limpiar contenido anterior del modal
+                $('#modalContentEditar').empty();
+
+                // Cargar nuevo contenido en el modal
                 $.get('agregar_videojuego.php', function (response, status, xhr) {
                     if (status == "error") {
                         alert("Error: " + xhr.status + " " + xhr.statusText);
                     } else {
-                        console.log("Contenido cargado exitosamente!");
+                        SVGAnimateMotionElement
+                        console.log(response);
+                        console.log("Contenido agregar cargado exitosamente!");
                         $('#modalContentAgregar').html(response);
-                        myModal.show();
+                        myModalAgregar.show();
                     }
                 });
             });

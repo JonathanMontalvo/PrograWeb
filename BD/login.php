@@ -3,6 +3,8 @@ require_once ('database.php');
 require_once ('orm.php');
 require_once ('usuarios.php');
 
+session_start();
+
 $db = new Database();
 $encontrar = $db->verificarDriver();
 if ($encontrar) {
@@ -14,8 +16,10 @@ if ($encontrar) {
     $usuarios = $usrModelo->validaLogin($data);
 
     if ($usuarios) {
-        $usr = $usuarios['nombre'];
-        $_SESSION["usr"] = $usr;
+        $name = $usuarios['nombre'];
+        $l_name = $usuarios['apellido_paterno'];
+        $s_name = $usuarios['apellido_materno'];
+        $_SESSION["usr"] = $name . " " . $l_name . " " . $s_name;
         $rol = $usuarios['rol'];
         if ($rol == 'CLIENTE') {
             header('Location: ../pagina/usuario_videojuegos.php');

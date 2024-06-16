@@ -1,3 +1,6 @@
+<?php
+include ('../layout/navUsuario.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,11 +10,18 @@
     <title>Lista de Videojuegos</title>
     <!-- Incluyendo Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Ajax -->
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
+    <h1>-</h1>
     <div class="container">
         <h1 class="mt-5 text-center">Lista de Videojuegos</h1>
         <table id="tablaVideojuegos" class="table table-striped table-bordered">
@@ -30,13 +40,8 @@
             <tbody>
             </tbody>
         </table>
+        <button id="mostrarTodo" class="btn btn-primary mt-3" style="display:none;">Mostrar Todo</button>
     </div>
-
-    <!-- Incluyendo jQuery y Bootstrap JS -->
-    <!-- Popper.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -70,11 +75,15 @@
             // Manejar el evento click de los botones de acción
             $('#tablaVideojuegos').on('click', '.btn-success', function () {
                 var row = $(this).closest('tr');
-                var id = row.find('td:nth-child(1)').text();
-                var nombre = row.find('td:nth-child(2)').text();
-                var clasificacion = row.find('td:nth-child(3)').text();
-                // Aquí puedes agregar el código para manejar la acción del botón
-                alert('Acción 1 - ID: ' + id + '\nNombre: ' + nombre + '\nClasificación: ' + clasificacion);
+                $('#tablaVideojuegos tbody tr').hide(); // Ocultar todas las filas
+                row.show(); // Mostrar solo la fila seleccionada
+                $('#mostrarTodo').show(); // Mostrar el botón para mostrar todas las filas
+            });
+
+            // Manejar el evento click del botón "Mostrar Todo"
+            $('#mostrarTodo').on('click', function () {
+                $('#tablaVideojuegos tbody tr').show(); // Mostrar todas las filas
+                $(this).hide(); // Ocultar el botón "Mostrar Todo"
             });
 
         });
