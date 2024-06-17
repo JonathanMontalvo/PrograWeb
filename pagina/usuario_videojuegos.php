@@ -42,7 +42,6 @@ include ('../layout/navUsuario.php');
         </table>
         <button id="mostrarTodo" class="btn btn-primary mt-3" style="display:none;">Mostrar Todo</button>
     </div>
-
     <script>
         $(document).ready(function () {
             var videojuegos = []; // Arreglo para almacenar los datos de los videojuegos
